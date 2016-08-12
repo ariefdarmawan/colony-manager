@@ -1,0 +1,31 @@
+{
+    "port":9100,
+    "appname":"colony-manager",
+    "connections":{
+        "acl":{
+            "driver":"mongo",
+            "connectioninfo":{
+                "host":"localhost:27123",
+                "database":"ectest",
+                "user":"","password":""
+            }
+        },
+        "db":{
+            "driver":"mongo",
+            "connectioninfo":{
+                "host":"localhost:27123",
+                "database":"ectest",
+                "user":"","password":""
+            }
+        },
+        "mem":{
+            "driver":"sebardb",
+            "connectioninfo":{
+                "host":"localhost:30000",
+                "database":"ectest",
+                "user":"","password":"",
+                "config":{"storage":"memory"}
+            }
+        }
+    }
+}
