@@ -19,6 +19,7 @@ func App() *knot.App {
 	app.LayoutTemplate = "_layout.html"
 	app.Static("static", filepath.Join(wd, "assets"))
 	app.Static("views", filepath.Join(wd, "views"))
+	app.Register(new(RestAPI))
 	app.Register(new(Dashboard))
 	app.Register(new(DataManager))
 	app.Register(new(Orchestrator))
