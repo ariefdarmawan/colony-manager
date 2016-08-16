@@ -51,6 +51,11 @@ GridConfig.prototype.fromMetaData = function(mdts){
 	return this;
 }
 
+GridConfig.prototype.metadataFromUrl = function(url,modelname){
+	var models = metadataFromUrl(url,modelname);
+	return this;
+}
+
 function handleState(x, event){
     var target = event.target;
     var bindStateId = $(target).attr("data-bind");
@@ -63,16 +68,18 @@ function metadataFromUrl(url,modelname){
 	var processing  = true;
 	var models = []
 
-	ajaxPost(url,{model:modelname},
-		function(data){
-			processing=false;
-		}, function(e){
-			processing=false;
-		});
+	/*
+		ajaxPost(url,{model:modelname},
+			function(data){
+				processing=false;
+			}, function(e){
+				processing=false;
+			});
 
-	while(processing){
-		//--- do nothing
-	}
+		while(processing){
+			//--- do nothing
+		}
+	*/
 	return models; 
 }
 
