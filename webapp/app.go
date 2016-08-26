@@ -10,7 +10,15 @@ import (
 	"github.com/eaciit/config"
 	"github.com/eaciit/knot/knot.v1"
 	"github.com/eaciit/toolkit"
+
+	"eaciit/colony-core"
 )
+
+var cmm = clncore.NewDataModelManager()
+
+func init() {
+	cmm.SetObj(new(clncore.DataModel))
+}
 
 func App() *knot.App {
 	app := knot.NewApp("colony-manager")
