@@ -2,25 +2,28 @@
 setPageTitle("Data Manager")
 
 var models = [
-    {id:"_id", type:"string", label:"ID"},
-    {id:"title", type:"string", label:"Title"},
-    {id:"type", type:"string", label:"Type"},
-    {id:"connectioninfo", type:"string", label:"Connection"}
+    {id:"_id", type:"string", title:"ID"},
+    {id:"title", type:"string", title:"Title"},
+    {id:"type", type:"string", title:"Type"},
+    {id:"connectioninfo", type:"string", title:"Connection"}
 ]
 
-var config = new GridConfig().set("dataSource",{
+var gridConfig = new GridConfig().set("dataSource",{
                 pageSize:10, 
                 data: []
             }).
+            set("columns",models).
             set("filterable",false).
-            metadataFromUrl("http://localhost:9100/metadata","datasource").
-            fetch();
+            metadataFromUrl("http://localhost:9100/metadata","datasource");
 
 var GridWidget = React.createClass({
     getInitialState : function(){
         return {
             simpleQuery : ""
         };
+    },    
+    componentDidMount: function () {
+       this.refs.grid.initGrid(gridConfig.fetch());
     },
     handleState : function(event){
         handleState(this,event);
@@ -48,13 +51,14 @@ var GridWidget = React.createClass({
 
     },
     render : function(){
+        var gcfg = this.state.gridConfig;
         return <div ref="main">
                 <div style={{marginBottom:5+"px"}} className="row">
                     <div className="col-sm-6">
                         <div className="input-group input-group-sm">
                             <input type="text" className="form-control" ref="bind_simpleQuery" 
                                 placeholder="Search for ..." 
-                                data-bind="simpleQuery"
+                                data-bind="simpleQuery" value={this.state.simpleQuery} 
                                 onChange={this.handleState}
                                 />
                             <span className="input-group-btn">
@@ -77,7 +81,7 @@ var GridWidget = React.createClass({
                         </button>
                     </div>
                 </div>
-                <EC.Grid config={config} ref="grid" />
+                <EC.Grid ref="grid" />
             </div>;
     }
 });

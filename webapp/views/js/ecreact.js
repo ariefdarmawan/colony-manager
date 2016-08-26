@@ -2,8 +2,12 @@ var EC = {}
 window.EC = EC;
 
 class ECGrid extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {};
+  }
+
     componentDidMount() {
-        $(this.refs.main).kendoGrid(this.props.config);
     }
 
     componentWillUnmount() {
@@ -17,9 +21,20 @@ class ECGrid extends React.Component {
     show(){
         $(this.refs.main).show();
     }
-    
+
+    initGrid(cfg){
+        var mainObj = $(this.refs.main);
+        if(mainObj.data("kendoGrid")!=undefined){
+            $(this.refs.main).data("kendoGrid").destroy();
+        }
+        $(this.refs.main).kendoGrid(cfg);
+        console.log(cfg);
+    }
+
     refresh(cfg){
-        $(this.refs.main).data("kendoGrid").refresh();
+        if(cfg==undefined || cfg==null){
+            $(this.refs.main).data("kendoGrid").refresh();
+        }
     }
 
     render(){
