@@ -2,15 +2,19 @@
 setPageTitle("Data Manager")
 
 var models = [
-    {id:"_id", type:"string", title:"ID"},
-    {id:"title", type:"string", title:"Title"},
-    {id:"type", type:"string", title:"Type"},
+    {width:30, template:"<input type='checkbox'>"},
+    {id:"_id", field:"_id", type:"string", title:"ID"},
+    {id:"title", field:"title", type:"string", title:"Title"},
+    {id:"type", field:"type", type:"string", title:"Type"},
     {id:"connectioninfo", type:"string", title:"Connection"}
 ]
 
 var gridConfig = new GridConfig().set("dataSource",{
                 pageSize:10, 
-                data: []
+                data: [
+                    {"_id":"DS01","title":"Z01FK001 Flat File / FTP", "type":"Flat"},
+                    {"_id":"DS02","title":"Z01FK002 Flat File / HDFS", "type":"HDFS"},
+                    {"_id":"DS03","title":"Z0321102 MongoDb 190", "type":"Mongo"}]
             }).
             set("columns",models).
             set("filterable",false).
