@@ -30,7 +30,7 @@ class ECGrid extends React.Component {
         $(this.refs.main).kendoGrid(cfg);
     }
 
-    setData(data){
+    setData(data, currentPage, pageCount){
         var mainObj = $(this.refs.main);
         if(mainObj.data("kendoGrid")!=undefined){
             mainObj.data("kendoGrid").setDataSource(new kendo.data.DataSource({data:data}));
@@ -79,7 +79,7 @@ class ECDataBrowser extends React.Component {
     }
 
     setData(data, currentPage, pageCount){
-        this.refs.grid.setData(data)
+        this.refs.grid.setData(data, currentPage, pageCount)
     }
 
     refresh(){
