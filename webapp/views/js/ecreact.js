@@ -135,20 +135,41 @@ class ECDataBrowser extends React.Component {
                         </button>
                         </div>;
 
-        divControls = this.props.hideSearch=="true" ? 
-                    <div style={{marginBottom:5+"px"}} className="row">
-                    <div className="col-sm-12">
-                        {buttonControls}
-                    </div>
-                    </div> :
-                    <div style={{marginBottom:5+"px"}} className="row">
-                    <div className="col-sm-6">
-                        {searchControls}
-                    </div>
-                    <div className="col-sm-6">
-                        {buttonControls}
-                    </div>
-                    </div>
+        if(this.props.searchBox==undefined){
+            divControls = this.props.hideSearch=="true" ? 
+                        <div style={{marginBottom:5+"px"}} className="row">
+                        <div className="col-sm-12">
+                            {buttonControls}
+                        </div>
+                        </div> :
+                        <div style={{marginBottom:5+"px"}} className="row">
+                        <div className="col-sm-6">
+                            {searchControls}
+                        </div>
+                        <div className="col-sm-6">
+                            {buttonControls}
+                        </div>
+                        </div>;
+        }else{
+            divControls = this.props.hideSearch=="true" ? 
+                        <div style={{marginBottom:5+"px"}} className="row">
+                            <div className="col-sm-12">
+                                {buttonControls}
+                            </div>
+                        </div> :
+                        <div>
+                            <div style={{marginBottom:5+"px"}} className="row">
+                                <div className="col-sm-12">
+                                    {searchControls}
+                                </div>
+                            </div>
+                            <div style={{marginBottom:5+"px"}} className="row">
+                                <div className="col-sm-12">
+                                    {buttonControls}
+                                </div>
+                            </div>
+                        </div>;
+        };
 
         return <div ref="main">
                 {divControls}
