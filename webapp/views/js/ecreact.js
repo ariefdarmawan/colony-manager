@@ -103,21 +103,25 @@ class ECDataBrowser extends React.Component {
     render(){
         var searchControls, buttonControls, divControls;
 
-        searchControls = this.props.hideSearch=="true" ? <div></div> :  
-                        <div className="input-group input-group-sm">
-                            <input type="text" className="form-control" ref="bind_simpleQuery" 
-                                placeholder="Search for ..." 
-                                data-bind="simpleQuery" value={this.state.simpleQuery} 
-                                onChange={this.handleState}
-                                />
-                            <span className="input-group-btn">
-                                <button className="btn btn-sm btn-default" type="button" 
-                                    onClick={this.refresh}>Refresh</button>
-                                <button className="btn btn-sm btn-default">
-                                    <span className="glyphicon glyphicon-tasks"></span>
-                                </button>
-                            </span>
-                        </div>;
+        if(this.props.hideSearch!="true" && this.props.searchBox!=undefined){
+            searchControls = this.props.searchBox;
+        } else {
+            searchControls = this.props.hideSearch=="true" ? <div></div> :  
+                            <div className="input-group input-group-sm">
+                                <input type="text" className="form-control" ref="bind_simpleQuery" 
+                                    placeholder="Search for ..." 
+                                    data-bind="simpleQuery" value={this.state.simpleQuery} 
+                                    onChange={this.handleState}
+                                    />
+                                <span className="input-group-btn">
+                                    <button className="btn btn-sm btn-default" type="button" 
+                                        onClick={this.refresh}>Refresh</button>
+                                    <button className="btn btn-sm btn-default">
+                                        <span className="glyphicon glyphicon-tasks"></span>
+                                    </button>
+                                </span>
+                            </div>;
+        }
 
         buttonControls =  this.props.hideButton=="true" ? <div></div> : 
                         <div>

@@ -23,12 +23,14 @@ var gridConfig = new GridConfig().set("dataSource",{
 
 var gf = gridConfig.fetch();
 
+var insertDom = <div>This is a dummy DOM</div>;
+
 var DbrConn = React.createClass({
     componentDidMount: function(){
         this.refs.dbrConn.setData(gridData, 1, 1);
-    },
+    },s
     render : function(){
-        return <EC.DataBrowser ref="dbrConn" gridConfig={gf} hideSearch="true" />;
+        return <EC.DataBrowser ref="dbrConn" gridConfig={gf} searchBox={insertDom} />;
     }
 });
 
