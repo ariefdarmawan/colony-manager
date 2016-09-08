@@ -12,6 +12,7 @@ function GridConfig(){
             sortable:true,
 			resizable:true,
             filterable:true,
+			metadataUrl: "", 
             columns:[],
 			error: ""
         };
@@ -51,8 +52,8 @@ GridConfig.prototype.fromMetaData = function(mdts){
 	return this;
 }
 
-GridConfig.prototype.metadataFromUrl = function(url,modelname){
-	var models = metadataFromUrl(url,modelname);
+GridConfig.prototype.metadataFromUrl = function(url){
+	var models = metadataFromUrl(url);
 	return this;
 }
 
@@ -64,7 +65,7 @@ function handleState(x, event){
     x.setState(stateObj);
 }
 
-function metadataFromUrl(url,modelname){
+function metadataFromUrl(url){
 	var processing  = true;
 	var models = []
 

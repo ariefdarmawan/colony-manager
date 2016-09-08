@@ -9,28 +9,28 @@ var models = [
     {id:"connectioninfo", type:"string", title:"Connection"}
 ]
 
+/*
 var gridData = [{"_id":"DS01","title":"Z01FK001 Flat File / FTP", "type":"Flat"},
                     {"_id":"DS02","title":"Z01FK002 Flat File / HDFS", "type":"HDFS"},
                     {"_id":"DS03","title":"Z0321102 MongoDb 190", "type":"Mongo"}];
+*/
 
 var gridConfig = new GridConfig().set("dataSource",{
                 pageSize:10, 
                 data: []
             }).
-            set("columns",models).
+            //set("columns",models).
             set("filterable",false).
-            metadataFromUrl("http://localhost:9100/metadata","datasource");
+            metadataFromUrl("http://localhost:9100/metadata?modelname=connection");
 
 var gf = gridConfig.fetch();
 
-var insertDom = <div>This is a dummy DOM</div>;
-
 var DbrConn = React.createClass({
     componentDidMount: function(){
-        this.refs.dbrConn.setData(gridData, 1, 1);
+        this.refs.dbrConn.populate();
     },
     render : function(){
-        return <EC.DataBrowser ref="dbrConn" gridConfig={gf} searchBox={insertDom} />;
+        return <EC.DataBrowser ref="dbrConn" gridConfig={gf} />;
     }
 });
 

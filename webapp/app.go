@@ -18,6 +18,7 @@ var cmm = clncore.NewDataModelManager()
 
 func init() {
 	cmm.SetObj(new(clncore.DataModel))
+	cmm.SetObj(new(clncore.DataConnection))
 }
 
 func App() *knot.App {
