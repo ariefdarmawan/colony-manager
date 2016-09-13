@@ -16,9 +16,40 @@ function GridConfig(){
             columns:[],
 			error: ""
         };
+
+	this.metadataUrl = "";
 }
 
 GridConfig.prototype.fetch = function(){
+	thisObj = this;
+	columns = [];
+	$.ajax({
+		url:thisObj.metadataUrl,
+		async:false
+	}).done(function(data){
+		if(data && data.Status=="OK"){
+			columns = _.chain(data.Data.Fields).
+				filter(function(item){
+					return item.ShowGrid==true;
+				}).
+				sort(function(item){
+					return item.ShowGridColumn
+				}).
+				map(function(item){
+					return {
+						field:item.DBFieldId,
+						title:item.Label	
+					};
+				}).
+				value();
+		} else {
+			alert("Error call " + thisObj.metadataUrl);
+		}
+	}).fail(function(txt){
+		alert("Error call " + thisObj.metadataUrl);	
+	});
+
+	this.cfgObj.columns = columns;
 	return this.cfgObj;
 }
 
@@ -53,7 +84,8 @@ GridConfig.prototype.fromMetaData = function(mdts){
 }
 
 GridConfig.prototype.metadataFromUrl = function(url){
-	var models = metadataFromUrl(url);
+	//var models = metadataFromUrl(url);
+	this.metadataUrl = url;
 	return this;
 }
 
@@ -64,23 +96,3 @@ function handleState(x, event){
     stateObj[bindStateId]=target.value;
     x.setState(stateObj);
 }
-
-function metadataFromUrl(url){
-	var processing  = true;
-	var models = []
-
-	/*
-		ajaxPost(url,{model:modelname},
-			function(data){
-				processing=false;
-			}, function(e){
-				processing=false;
-			});
-
-		while(processing){
-			//--- do nothing
-		}
-	*/
-	return models; 
-}
-
