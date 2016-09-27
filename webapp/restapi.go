@@ -101,6 +101,29 @@ func (d *RestAPI) Metadata(ctx *knot.WebContext) interface{} {
 	return result
 }
 
+func (d *RestAPI) Populate(ctx *knot.WebContext) interface{} {
+	ctx.Config.OutputType = knot.OutputJson
+
+	type PopulateModel struct {
+		ID    string `bson:"_id" json:"_id"`
+		Title string
+		Email string
+	}
+
+	models := []*PopulateModel{}
+
+	for i := 0; i <= 10; i++ {
+		iStr := toolkit.ToString(i)
+		models = append(models, &PopulateModel{
+			"data " + iStr,
+			"DataSet " + iStr,
+			"email" + iStr + "@email.com",
+		})
+	}
+
+	return toolkit.NewResult().SetData(models)
+}
+
 /*
 func getFields(obj interface{}) []*ccore.DataField {
 	var fields []*ccore.DataField

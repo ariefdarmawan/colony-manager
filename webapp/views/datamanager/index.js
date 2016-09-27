@@ -21,13 +21,17 @@ var gridConfig = new GridConfig().set("dataSource",{
             }).
             //set("columns",models).
             set("filterable",false).
-            metadataFromUrl("http://localhost:9100/restapi/metadata?modelname=connection");
+            metadataFromUrl("http://localhost:9100/restapi/metadata?modelname=connection"). 
+            dataSource({url:"http://localhost:9100/restapi/populate",
+                postdata:function(obj){
+                    return {}; 
+                }});
 
 var gf = gridConfig.fetch();
 
 var DbrConn = React.createClass({
     componentDidMount: function(){
-        //this.refs.dbrConn.populate();
+        this.refs.dbrConn.populate();
     },
     render : function(){
         return <EC.DataBrowser ref="dbrConn" gridConfig={gf} />;

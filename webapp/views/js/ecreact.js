@@ -1,3 +1,4 @@
+//import React from "/static/react/react"
 var EC = {}
 window.EC = EC;
 
@@ -76,6 +77,10 @@ class ECDataBrowser extends React.Component {
 
     show(){
         $(this.refs.main).show();
+    }
+
+    populate(){
+
     }
 
     setData(data, currentPage, pageCount){
