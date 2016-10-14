@@ -17,12 +17,13 @@ func (d *RestAPI) Index(ctx *knot.WebContext) interface{} {
 }
 
 type MetadataField struct {
-	ID             string
-	DBFieldID      string
-	Label          string
-	FieldType      string
-	ShowGrid       bool
-	ShowGridColumn int
+	ID                   string
+	DBFieldID            string
+	Label, Align, Format string
+	FieldType            string
+	Width                int
+	ShowGrid             bool
+	ShowGridColumn       int
 }
 
 func DataField2MetadataField(fs []*clncore.DataField) []*MetadataField {

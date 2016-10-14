@@ -1,111 +1,64 @@
-//import React from "/static/react/react"
 var EC = {}
 window.EC = EC;
 
-class ECGrid extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {};
-    }
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-        $(this.refs.main).data("kendoGrid").destroy();
-    }
-
-    hide(){
-        $(this.refs.main).hide();
-    }
-
-    show(){
-        $(this.refs.main).show();
-    }
-
-    initGrid(cfg){
-        var mainObj = $(this.refs.main);
-        if(mainObj.data("kendoGrid")!=undefined){
-            $(this.refs.main).data("kendoGrid").destroy();
-        }
-        $(this.refs.main).kendoGrid(cfg);
-    }
-
-    setData(data, currentPage, pageCount){
-        var mainObj = $(this.refs.main);
-        if(mainObj.data("kendoGrid")!=undefined){
-            mainObj.data("kendoGrid").setDataSource(new kendo.data.DataSource({data:data}));
-        }
-    }   
-
-    refresh(cfg){
-        if(cfg==undefined || cfg==null){
-            $(this.refs.main).data("kendoGrid").refresh();
-        }
-    }
-
-    render(){
-        return <div className="ecgrid" ref="main"></div>
-    }
-};
-//EC.Grid = ECGrid;
-
-class ECDataBrowser extends React.Component {
-    constructor(props){
+//class ECDataBrowser extends React.Component {
+EC.DataBrowser = React.createClass({
+    /*constructor(props){
         super(props);
         this.state = {
             simpleQuery: "",
             gridConfig: {}
         };
     }
-
-    componentDidMount(){
-        this.refs.grid.initGrid(this.props.gridConfig);
-    }
-
-    initGrid(cfg){
-        this.refs.grid.initGrid(cfg);
-    }
-
-    handleState(event){
+    */
+    getInitialState: function(){
+        return {
+            simpleQuery:"", gridConfig:{}
+        };
+    },
+    componentDidMount: function(){
+        this.initGrid(this.props.gridConfig);
+    },
+    handleState : function(event){
         handleState(this,event);
-    }
-
-    hide(){
+    },
+    hide: function(){
         $(this.refs.main).hide();
-    }
-
-    show(){
+    },
+    show: function(){
         $(this.refs.main).show();
-    }
+    },
+    populate: function(){
 
-    populate(){
-
-    }
-
-    setData(data, currentPage, pageCount){
-        this.refs.grid.setData(data, currentPage, pageCount)
-    }
-
-    refresh(){
+    },
+    initGrid: function(cfg){
+        var mainObj = $(this.refs.grid);
+        if(mainObj.data("kendoGrid")!=undefined){
+            mainObj.data("kendoGrid").destroy();
+        }
+        mainObj.kendoGrid(cfg);
+    },
+    setData: function(data, currentPage, pageCount){
+        //this.refs.grid.setData(data, currentPage, pageCount)
+    },
+    refresh: function(){
         var q = this.state.simpleQuery;
         var refreshQuery = {
             q: q
         };
-        this.refs.grid.refresh(refreshQuery);
-    }
-
-    add(){
-    }
-
-    delete(){
+        alert("Querying: " + q);
+    },
+    add: function(){
+        alert("This is to run add operation");
+    },
+    delete: function(){
         confirm("Are you sure you want to delete selected data ?");
-    }
+    },
 
-    manage(){
-    }
+    manage: function(){
+    },
 
-    render(){
+    render: function(){
         var searchControls, buttonControls, divControls;
 
         if(this.props.hideSearch!="true" && this.props.searchBox!=undefined){
@@ -178,8 +131,8 @@ class ECDataBrowser extends React.Component {
 
         return <div ref="main">
                 {divControls}
-                <ECGrid ref="grid" />
+                <div className="ecgrid" ref="grid"></div>
             </div>;
     }
-};
-EC.DataBrowser = ECDataBrowser;
+});
+//EC.DataBrowser = ECDataBrowser;

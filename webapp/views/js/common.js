@@ -23,33 +23,39 @@ function GridConfig(){
 GridConfig.prototype.fetch = function(){
 	thisObj = this;
 	columns = [];
-	$.ajax({
-		url:thisObj.metadataUrl,
-		async:false
-	}).done(function(data){
-		if(data && data.Status=="OK"){
-			columns = _.chain(data.Data.Fields).
-				filter(function(item){
-					return item.ShowGrid==true;
-				}).
-				sort(function(item){
-					return item.ShowGridColumn
-				}).
-				map(function(item){
-					return {
-						field:item.DBFieldId,
-						title:item.Label	
-					};
-				}).
-				value();
-		} else {
-			alert("Error call " + thisObj.metadataUrl);
-		}
-	}).fail(function(txt){
-		alert("Error call " + thisObj.metadataUrl);	
-	});
 
-	this.cfgObj.columns = columns;
+	if(thisObj.metadataUrl!=""){
+		$.ajax({
+			url:thisObj.metadataUrl,
+			async:false
+		}).done(function(data){
+			if(data && data.Status=="OK"){
+				columns = _.chain(data.Data.Fields).
+					filter(function(item){
+						return item.ShowGrid==true;
+					}).
+					sort(function(item){
+						return item.ShowGridColumn
+					}).
+					map(function(item){
+						return {
+							field:item.DBFieldID,
+							title:item.Label,
+							width:item.Width,
+							align:item.Align,
+							format: item.Format,
+							template: item.Template
+						};
+					}).
+					value();
+			} else {
+				alert("Error call " + thisObj.metadataUrl);
+			}
+		}).fail(function(txt){
+			alert("Error call " + thisObj.metadataUrl);	
+		});
+		this.cfgObj.columns = columns;
+	}
 	return this.cfgObj;
 }
 
@@ -75,8 +81,8 @@ GridConfig.prototype.fromMetaData = function(mdts){
 	var columns = [];
 	mdts.forEach(function(obj,idx){
 		columns.push({
-			field:obj.field,
-			title:obj.label
+			field:obj.DbFieldID,
+			title:obj.Label
 		})
 	});
 	this.set("columns",columns)
@@ -95,4 +101,27 @@ function handleState(x, event){
     var stateObj = {};
     stateObj[bindStateId]=target.value;
     x.setState(stateObj);
+}
+
+function DataSource(){
+	this.uri = "";
+	this.data = [];
+	this.uriType = "";
+	this.postData = "";
+	this.postDataType = "json";
+
+	this.populate = function(data){
+
+	};
+}
+
+DataSource.prototype.run = function(){
+	thisObj = this;
+	$.ajax({
+		url: this.uri
+	}).done(function(data){
+		thisObj.populate(data);
+	}).fail(function(txt){
+		alert("Error call " + thisObj.metadataUrl);	
+	});
 }
