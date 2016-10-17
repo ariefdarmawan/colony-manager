@@ -52,7 +52,8 @@ func main() {
 	}
 
 	port := int(config.GetDefault("port", 9100).(float64))
+	serveraddress := config.GetDefault("server", "0.0.0.0").(string)
 	wd := config.GetDefault("workingpath", "").(string)
 	app := App(wd)
-	knot.StartApp(app, toolkit.Sprintf("localhost:%d", port))
+	knot.StartApp(app, toolkit.Sprintf("%s:%d", serveraddress, port))
 }
