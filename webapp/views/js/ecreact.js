@@ -1,16 +1,7 @@
 var EC = {}
 window.EC = EC;
 
-//class ECDataBrowser extends React.Component {
 EC.DataBrowser = React.createClass({
-    /*constructor(props){
-        super(props);
-        this.state = {
-            simpleQuery: "",
-            gridConfig: {}
-        };
-    }
-    */
     getInitialState: function(){
         return {
             simpleQuery:"", gridConfig:{}
@@ -135,4 +126,3 @@ EC.DataBrowser = React.createClass({
             </div>;
     }
 });
-//EC.DataBrowser = ECDataBrowser;

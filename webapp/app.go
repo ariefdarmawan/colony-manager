@@ -21,9 +21,11 @@ func init() {
 	cmm.SetObj(new(clncore.DataConnection))
 }
 
-func App() *knot.App {
+func App(wd string) *knot.App {
 	app := knot.NewApp("colony-manager")
-	wd, _ := os.Getwd()
+	if wd == "" {
+		wd, _ = os.Getwd()
+	}
 	app.ViewsPath = filepath.Join(wd, "views")
 	app.LayoutTemplate = "_layout.html"
 	app.Static("static", filepath.Join(wd, "assets"))
@@ -50,6 +52,7 @@ func main() {
 	}
 
 	port := int(config.GetDefault("port", 9100).(float64))
-	app := App()
+	wd := config.GetDefault("workingpath", "").(string)
+	app := App(wd)
 	knot.StartApp(app, toolkit.Sprintf("localhost:%d", port))
 }
