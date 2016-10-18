@@ -8,22 +8,34 @@ var models = [
     {id:"connectioninfo", type:"string", title:"Connection"}
 ]
 
-var gridData = [{"_id":"DS01","title":"Z01FK001 Flat File / FTP", "type":"Flat"},
+var gridData = {data:[{"_id":"DS01","title":"Z01FK001 Flat File / FTP", "type":"Flat"},
                     {"_id":"DS02","title":"Z01FK002 Flat File / HDFS", "type":"HDFS"},
-                    {"_id":"DS03","title":"Z0321102 MongoDb 190", "type":"Mongo"}];
+                    {"_id":"DS03","title":"Z0321102 MongoDb 190", "type":"Mongo"}],
+    count:30};
+
+//var dataSource = new DataSource().url("/data/populate?datasource=datasource").limit(5)
 
 var gridConfig = new GridConfig().set("dataSource",{
                 pageSize:2, 
-                data: gridData,
-                serverPaging: true
+                serverSorting: true,
+                serverFiltering: true,
+                serverPaging: true,
+                    transport:{
+                        read:{
+                            url:"/datamanager/populate"
+                        }
+                    },
+                schema: {
+                    data:"Data.data",
+                    total:"Data.count"
+                }
             }).
             //set("columns",models).
             set("pageable",true).
             set("filterable",false).
             metadataFromUrl("http://localhost:9100/restapi/metadata?modelname=connection");
 
-var ds = {
-        url:"http://localhost:9100/restapi/populate",
+var ds = {url:"http://localhost:9100/restapi/populate",
         postdata:function(obj){
                 return {}; 
             }
