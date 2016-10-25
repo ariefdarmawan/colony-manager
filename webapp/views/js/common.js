@@ -32,27 +32,33 @@ GridConfig.prototype.fetch = function(){
 			if(data && data.Status=="OK"){
 				columns = _.chain(data.Data.Fields).
 					filter(function(item){
-						return item.ShowGrid==true;
+						return item.GridShow==true;
 					}).
-					sort(function(item){
-						return item.ShowGridColumn
+					sortBy(function(item){
+						return item.GridColumn;
 					}).
 					map(function(item){
-						return {
+						return item.GridUseTemplate ?  {
 							field:item.DBFieldID,
 							title:item.Label,
-							width:item.Width,
-							align:item.Align,
-							format: item.Format,
-							template: item.Template
+							width:item.GridWidth,
+							align:item.GridAlign,
+							columnIndex:item.GridColumn
+						} : {
+							field:item.DBFieldID,
+							title:item.Label,
+							width:item.GridWidth,
+							template:item.GridUseTemplate,
+							columnIndex:item.GridColumn
 						};
 					}).
 					value();
+					//alert(kendo.stringify(columns));
 			} else {
-				alert("Error call " + thisObj.metadataUrl);
+				alert("Error calling " + thisObj.metadataUrl);
 			}
 		}).fail(function(txt){
-			alert("Error call " + thisObj.metadataUrl);	
+			alert("Error calling " + thisObj.metadataUrl);	
 		});
 		this.cfgObj.columns = columns;
 	}
@@ -77,6 +83,7 @@ GridConfig.prototype.setDataSource = function (attribute, ds) {
 	return this;
 }
 
+/*
 GridConfig.prototype.fromMetaData = function(mdts){
 	var columns = [];
 	mdts.forEach(function(obj,idx){
@@ -88,6 +95,7 @@ GridConfig.prototype.fromMetaData = function(mdts){
 	this.set("columns",columns)
 	return this;
 }
+*/
 
 GridConfig.prototype.metadataFromUrl = function(url){
 	//var models = metadataFromUrl(url);

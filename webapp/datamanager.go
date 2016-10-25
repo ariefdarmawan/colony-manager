@@ -35,7 +35,10 @@ func (d *DataManager) Populate(ctx *knot.WebContext) interface{} {
 		//-- get data
 		models := []toolkit.M{}
 		for i := 0; i < count; i++ {
-			models = append(models, toolkit.M{}.Set("_id", toolkit.Sprintf("DS%d", i+1)).Set("title", toolkit.Sprintf("Datasource %d", i+1)))
+			models = append(models,
+				toolkit.M{}.
+					Set("_id", toolkit.Sprintf("DS%d", i+1)).
+					Set("title", toolkit.Sprintf("Datasource %d", i+1)))
 		}
 
 		//-- return the data
