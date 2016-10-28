@@ -66,7 +66,7 @@ var dsWidgetList = new kendo.data.HierarchicalDataSource({
 
 var PageLayout = React.createClass({
     componentDidMount: function(){
-        var thisObj = $(this.refs.lastoutwidgetlist);
+        var thisObj = $(this.refs.layoutwidgetlist);
         thisObj.kendoTreeView({
             dataSource: dsWidgetList,
             dataTextField: ["title"]
@@ -74,7 +74,7 @@ var PageLayout = React.createClass({
     },
     render:function(){
         return <div className="pagelayout">
-                <div ref="lastoutwidgetlist" />
+                <div ref="layoutwidgetlist" />
             </div>
     }
 });
