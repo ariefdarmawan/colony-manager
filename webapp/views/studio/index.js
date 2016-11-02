@@ -46,31 +46,90 @@ var WidgetLists = React.createClass({
     }
 });
 
-var dsWidgetList = new kendo.data.HierarchicalDataSource({
-                    data: [
-                        {widgetid:"datasource",title:"Data Source",
-                            widgets:[
-                                {widgetid:"ds01",title:"Production Report [HDFS Flat]"},
-                                {widgetid:"ds02",title:"Production Costing [SAP]"},
-                                {widgetid:"ds03",title:"Work Attendance [SQLServer]"},
-                                {widgetid:"ds04",title:"Production Model [Memory]"}
-                            ]},
-                        {widgetid:"widget",title:"Widgets"}    
-                    ],
+function addNode(data, idfieldname, parentid, childfieldname,obj){
+    var node = getNode(data,idfieldname,parentid,childfieldname);
+    if(node!=null){
+        var widgets = node.widgets;
+        if(!widgets || widgets.length==0){
+            widgets=[];
+        }
+        obj.titleshown = obj.title + " ["+obj.id+"]";
+        widgets.push(obj);
+        node.widgets = widgets;
+    }
+}
+
+function getNode(data, fieldname, id, childnodename){
+    var found = false;
+    var l = data.length;
+
+    for(var i=0;i<l;i++){
+        var dataitem = data[i];
+        if(dataitem[fieldname]==id){
+            return dataitem;
+        }
+
+        if(!dataitem[childnodename]){
+            var childnodes = dataitem[childnodename];
+            var childnodefind = getNode(childnodes, fieldname, id, childnodename);
+            if(childnodefind!=null){
+                return childnodefind;
+            }
+        }
+    }
+
+    return null;
+}
+
+var PageLayout = React.createClass({
+    getInitialState: function(){
+        return {dswidgetlists:[
+                {id:"DS",titleshown:"Data Source [DS]",widgets:[]},
+                {id:"WI",titleshown:"Widgets [WI]",widgets:[]}    
+            ]};
+    },
+    componentDidMount: function(){
+        var thisObj = $(this.refs.layoutwidgetlist);
+        thisObj.kendoTreeView({
+            dataTextField: ["titleshown"],
+            select: function(e){
+                console.log($(e.node).find(".k-in").text());
+            }
+        });
+        this.setWidgetDataSource();
+        this.addDataSource({id:"DS01",title:"HDFS"});
+        this.addWidget({id:"WI01",title:"Container"});
+    },
+    addDataSource: function(ds){
+        var dsdata = this.state.dswidgetlists;
+        ds.titleshown=ds.title + "["+ds.id+"]";
+        addNode(dsdata,"id","DS","",ds);
+        this.setState({dswidgetlists:dsdata});
+        this.setWidgetDataSource();
+    },
+    addWidget: function(widget, parentid){
+        var dsdata = this.state.dswidgetlists;
+        if(!parentid || parentid==""){
+            parentid="WI"
+        }
+        if(!widget.widgets){
+            widget.widgets=[];
+        }
+        widget.titleshown=widget.title + "["+widget.id+"]";
+        addNode(dsdata,"id",parentid,"widgets",widget);
+        this.setState({dswidgetlists:dsdata});
+        this.setWidgetDataSource();
+    },
+    setWidgetDataSource: function(){
+        var thisObj = $(this.refs.layoutwidgetlist);
+        thisObj.data("kendoTreeView").setDataSource(new kendo.data.HierarchicalDataSource({
+                    data: this.state.dswidgetlists,
                     schema: {
                         model: {
                             children: "widgets"
                         }
                     }
-                });
-
-var PageLayout = React.createClass({
-    componentDidMount: function(){
-        var thisObj = $(this.refs.layoutwidgetlist);
-        thisObj.kendoTreeView({
-            dataSource: dsWidgetList,
-            dataTextField: ["title"]
-        });
+                }));
     },
     render:function(){
         return <div className="pagelayout">
